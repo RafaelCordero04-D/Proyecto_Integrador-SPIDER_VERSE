@@ -1,0 +1,24 @@
+# Test your FastAPI endpoints
+
+GET http://127.0.0.1:8000/
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/hello/User
+Accept: application/json
+
+###
+
+#create Spiderman
+
+POST http://localhost:8000/spiderMans
+Content-Type: application/json
+
+{ "name": "Miles Morales",
+"alias": "Spider-Man",
+"universe": "Tierra-1610",
+"skills": "Rayo venenoso",
+"status": true
+}
+
