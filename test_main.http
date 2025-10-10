@@ -17,7 +17,7 @@ Content-Type: application/json
 
 { "name": "Miles Morales",
 "alias": "Spider-Man",
-"universe": "Tierra-1610",
+"universe": "",
 "skills": "Rayo venenoso",
 "status": true
 }

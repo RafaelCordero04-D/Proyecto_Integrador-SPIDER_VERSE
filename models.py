@@ -9,7 +9,7 @@ class universeBase(SQLModel):
 
 class universe(universeBase, table=True):
     id: int | None = Field(default = None, primary_key=True)
-    spiderMans: list["SpiderMan"] = Relationship(back_populates="universe")
+    spiderMans: list["SpiderMan"] = Relationship(back_populates="Universe")
 
 class universeCreate(universeBase):
     pass
@@ -19,7 +19,6 @@ class universeCreate(universeBase):
 class spiderManBase(SQLModel):
     name: str | None = Field(description= "Spider name")
     alias: str | None = Field(description = "Spider alias" )
-    universe: str | None = Field(description= "Spider universe")
     skills: str | None = Field(description= "Spider skills")
     status : bool | None = Field(description = "Spider status", default = True)
 
@@ -27,7 +26,7 @@ class spiderManBase(SQLModel):
 class SpiderMan(spiderManBase, table=True):
     id: int | None = Field(default = None, primary_key=True)
     universe_id:int =Field(foreign_key = "universe.id")
-    universe: Universe = Relationship(back_populates="spiders")
+    Universe: universe = Relationship(back_populates="spiderMans")
 
 
 class spiderManCreate(spiderManBase):

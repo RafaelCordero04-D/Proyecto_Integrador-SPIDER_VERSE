@@ -5,7 +5,7 @@ from models import SpiderMan, spiderManCreate, universe
 router = APIRouter()
 
 @router.post("/", response_model=SpiderMan)
-async def create_SpiderMan(new_SpiderMan, sesssion: SessionDep):
+async def create_SpiderMan(new_SpiderMan: spiderManCreate, session: SessionDep):
     spiderMan_data = new_SpiderMan.model_dump()
     universe_db = session.get_one(universe, spiderMan_data.get("universe_id"))
     if not universe_db:
