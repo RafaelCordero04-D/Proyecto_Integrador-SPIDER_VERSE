@@ -14,6 +14,9 @@ class universe(universeBase, table=True):
 class universeCreate(universeBase):
     pass
 
+class universeUpdate(universeBase):
+    pass
+
 
 
 class spiderManBase(SQLModel):

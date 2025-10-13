@@ -1,6 +1,6 @@
 from db import SessionDep
 from fastapi import APIRouter, HTTPException
-from models import universe, universeCreate
+from models import universe, universeCreate, universeUpdate
 
 router = APIRouter()
 
@@ -23,3 +23,24 @@ async def get_one_universe(universe_id: int, session:SessionDep):
 async def get_all_users(session:SessionDep):
     users = session.query(universe).all()
     return users
+
+@router.patch("/{universe_id}")
+async def update_universe(new_universe: universeUpdate, universe_id:int, session:SessionDep):
+    universe_db = session.get_one(universe, universe_id)
+    if not universe_db:
+        raise HTTPException(status_code=404, detail="Universe not found")
+    universe_update = new_universe.model_dump(exclude_unset=True)
+    universe_db.sqlmodel_update(universe_update)
+    session.add(universe_db)
+    session.commit()
+    session.refresh(universe_db)
+    return universe_db
+
+@router.delete("/{universe_id}")
+async def kill_one_universe(universe_id:int, session:SessionDep):
+    universe_db = session.get_one(universe, universe_id)
+    if not universe_db:
+        raise HTTPException(status_code= 404, detail="Universe not found")
+    session.delete(universe_db)
+    session.commit()
+    return {"Universe has been deleted"}
