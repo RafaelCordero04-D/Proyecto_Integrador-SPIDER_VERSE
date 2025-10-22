@@ -2,11 +2,14 @@ from fastapi import FastAPI
 
 import Spiderman
 import universe
+import pelicula
 from db import create_tables
 
 app = FastAPI(lifespan= create_tables, title="Spiderman API")
 app.include_router(Spiderman.router, tags=["SpiderMan"], prefix="/SpiderMans")
 app.include_router(universe.router, tags=["universe"], prefix="/universes")
+
+app.include_router(pelicula.router, tags=["pelicula"], prefix="/peliculas")
 
 
 @app.get("/")
