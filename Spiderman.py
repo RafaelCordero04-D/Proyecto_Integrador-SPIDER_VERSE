@@ -46,7 +46,7 @@ async def update_spiderMan(new_spiderMan: spiderManUpdate, spiderMan_id: int, se
     session.refresh(spiderMan_db)
     return spiderMan_db
 
-@router.delete("/spider-mans/{spiderMan_id}")
+@router.delete("/spider-mans/{spiderMan_id}", response_model=SpiderMan)
 async def kill_one_spiderMan(spiderMan_id:int, session: SessionDep):
     spiderMan_db = session.get(SpiderMan, spiderMan_id)
     if not spiderMan_db:
@@ -60,3 +60,14 @@ async def kill_one_spiderMan(spiderMan_id:int, session: SessionDep):
     session.commit()
     return {"message":f"SpiderMan '{spiderMan_db.name}' has been desactivated."}
 
+@router.put("/spider-mans/{spiderMan_id}/restore", response_model=SpiderMan)
+async def restore_spiderMan(spiderMan_id:int, session:SessionDep):
+    spiderMan_db = session.get(SpiderMan, spiderMan_id)
+    if not spiderMan_db:
+        raise HTTPException(status=404, detail="SpiderMan not found")
+
+    spiderman_db.status = True
+    session.add(spiderMan_db)
+    session.commit()
+    session.refresh(spiderMan_db)
+    return {"message": f"SpiderMan '{spiderMan_db.name}' has been restored."}
