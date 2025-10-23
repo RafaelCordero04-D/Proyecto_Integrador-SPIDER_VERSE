@@ -30,7 +30,8 @@ class spiderManBase(SQLModel):
     name: str | None = Field(description= "Spider name")
     alias: str | None = Field(description = "Spider alias" )
     skills: str | None = Field(description= "Spider skills")
-    status : bool | None = Field(description = "Spider status", default = True)
+    alive: bool | None = Field(description= "Spider alive")
+    status : bool | None = Field(description = "True = active, False= deleted", default = True)
 
 
 class SpiderMan(spiderManBase, table=True):
