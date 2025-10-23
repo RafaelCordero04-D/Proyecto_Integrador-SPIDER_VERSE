@@ -26,7 +26,7 @@ async def get_all_users(session:SessionDep):
 
 @router.patch("/{universe_id}")
 async def update_universe(new_universe: universeUpdate, universe_id:int, session:SessionDep):
-    universe_db = session.get_one(universe, universe_id)
+    universe_db = session.get(universe, universe_id)
     if not universe_db:
         raise HTTPException(status_code=404, detail="Universe not found")
     universe_update = new_universe.model_dump(exclude_unset=True)
@@ -38,7 +38,7 @@ async def update_universe(new_universe: universeUpdate, universe_id:int, session
 
 @router.delete("/{universe_id}")
 async def kill_one_universe(universe_id:int, session:SessionDep):
-    universe_db = session.get_one(universe, universe_id)
+    universe_db = session.get(universe, universe_id)
     if not universe_db:
         raise HTTPException(status_code= 404, detail="Universe not found")
     session.delete(universe_db)
