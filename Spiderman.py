@@ -21,7 +21,7 @@ async def create_SpiderMan(new_SpiderMan: spiderManCreate, session: SessionDep):
 #BUSCAR UN SPIDERMAN POR ID
 @router.get("/spider-mans/{spiderMan_id}", response_model=SpiderMan)
 async def get_one_SpiderMan(spiderMan_id: int, session: SessionDep):
-    spiderMan_db = session.get_one(SpiderMan, spiderMan_id)
+    spiderMan_db = session.get(SpiderMan, spiderMan_id)
     if not spiderMan_db:
         raise HTTPException(status_code=404, detail= "SpiderMan not found")
     return spiderMan_db
@@ -36,7 +36,7 @@ async def get_all_SpiderMan(session: SessionDep):
 #ACTULIZAR INFORMACIÓN DEL SPIDERMAN
 @router.patch("/spider-mans/{spiderMan_id}", response_model=SpiderMan)
 async def update_spiderMan(new_spiderMan: spiderManUpdate, spiderMan_id: int, session: SessionDep):
-    spiderMan_db = session.get_one(SpiderMan, spiderMan_id)
+    spiderMan_db = session.get(SpiderMan, spiderMan_id)
     if not spiderMan_db:
         raise HTTPException(status_code= 404, detail= "SpiderMan not found")
     spiderMan_update = new_spiderMan.model_dump(exclude_unset=True)
@@ -48,7 +48,7 @@ async def update_spiderMan(new_spiderMan: spiderManUpdate, spiderMan_id: int, se
 
 @router.delete("/spider-mans/{spiderMan_id}")
 async def kill_one_spiderMan(spiderMan_id:int, session: SessionDep):
-    spiderMan_db = session.get_one(SpiderMan, spiderMan_id)
+    spiderMan_db = session.get(SpiderMan, spiderMan_id)
     if not spiderMan_db:
         raise HTTPException(status_code = 404, detail="SpiderMan not found")
     session.delete(spiderMan_db)
