@@ -51,6 +51,12 @@ async def kill_one_spiderMan(spiderMan_id:int, session: SessionDep):
     spiderMan_db = session.get(SpiderMan, spiderMan_id)
     if not spiderMan_db:
         raise HTTPException(status_code = 404, detail="SpiderMan not found")
+
+    if not spiderMan_db.status:
+        raise HTTPException(status_code = 400, detail="SpiderMan already inactive")
+
+    spiderMan_db.status = False
     session.delete(spiderMan_db)
     session.commit()
-    return {"Spider-Man has been deleted"}
+    return {"message":f"SpiderMan '{spiderMan_db.name}' has been desactivated."}
+
