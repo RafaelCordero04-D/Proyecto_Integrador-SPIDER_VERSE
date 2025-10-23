@@ -1,6 +1,7 @@
 from db import SessionDep
 from fastapi import APIRouter, HTTPException
 from models import SpiderMan, spiderManCreate, universe, spiderManUpdate
+from sqlmodel import select
 
 router = APIRouter()
 
@@ -56,18 +57,27 @@ async def kill_one_spiderMan(spiderMan_id:int, session: SessionDep):
         raise HTTPException(status_code = 400, detail="SpiderMan already inactive")
 
     spiderMan_db.status = False
-    session.delete(spiderMan_db)
+    session.add(spiderMan_db)
     session.commit()
+    session.refresh(spiderMan_db)
     return {"message":f"SpiderMan '{spiderMan_db.name}' has been desactivated."}
 
 @router.put("/spider-mans/{spiderMan_id}/restore", response_model=SpiderMan)
-async def restore_spiderMan(spiderMan_id:int, session:SessionDep):
+async def restore_spiderMan(spiderMan_id: int, session:SessionDep):
     spiderMan_db = session.get(SpiderMan, spiderMan_id)
     if not spiderMan_db:
-        raise HTTPException(status=404, detail="SpiderMan not found")
+        raise HTTPException(status_code=404, detail="SpiderMan not found")
 
-    spiderman_db.status = True
+    spiderMan_db.status = True
     session.add(spiderMan_db)
     session.commit()
     session.refresh(spiderMan_db)
     return {"message": f"SpiderMan '{spiderMan_db.name}' has been restored."}
+
+@router.get("/spider-mans/", response_model=list[SpiderMan])
+async def get_SpiderMans_by_status(its_active: bool, session: SessionDep):
+    statement = select(SpiderMan).where(SpiderMan.status == its_active)
+    results =  session.exec(statement).all()
+    if not results:
+        raise HTTPException(status_code=404, detail="No SpiderMans found with that status")
+    return results
