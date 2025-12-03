@@ -1,0 +1,18 @@
+<div class="card" style="width: 18rem;">
+    {% if show_link|default(True) %}
+    <a href="/universes/{{ universe.id }}">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">Universe of the app</h5>
+            <p class="card-text">{{universe.name}}</p>
+        </div>
+        {% if show_link|default(True) %}
+    </a>
+    {% endif %}
+</div>
+
+
+<div class="card-body">
+    <a href="#" class="card-link">Card Link</a>
+    <a href="#" class="card-link">Another Link</a>
+</div>
