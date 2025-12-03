@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from sqlmodel import SQLModel, Field, Relationship
+from typing import Optional
 
 
 
@@ -32,6 +33,7 @@ class spiderManBase(SQLModel):
     skills: str | None = Field(description= "Spider skills")
     alive: bool | None = Field(description= "Spider alive")
     status : bool | None = Field(description = "True = active, False= deleted", default = True)
+    img: Optional[str] = Field(default = None, description="SpiderMan Image")
 
 
 class SpiderMan(spiderManBase, table=True):
@@ -44,6 +46,7 @@ class SpiderMan(spiderManBase, table=True):
 
 class spiderManCreate(spiderManBase):
     universe_id:int = Field(foreign_key = "universe.id")
+    img: Optional[str] = None
 
 class spiderManUpdate(spiderManBase):
     pass
