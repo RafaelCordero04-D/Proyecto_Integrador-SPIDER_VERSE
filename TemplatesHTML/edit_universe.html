@@ -1,0 +1,23 @@
+{% include "header.html" %}
+
+<h1>Editar Universe</h1>
+
+<form method="post" action="/universes/{{ universe.id }}/update" enctype="multipart/form-data">
+
+    <h3>Nombre del Universo</h3>
+    <input type="text" name="nameUniverse" value="{{ universe.name }}">
+
+    <h3>Descripción</h3>
+    <input type="text" name="descriptionUniverse" value="{{ universe.description }}">
+
+    <h3>Personajes</h3>
+    <input type="text" name="personajesUniverse" value="{{ universe.characters }}">
+
+
+    <br><br>
+    <input type="submit" value="Actualizar Universo" class="btn btn-primary">
+    <a href="/universes/{{ universe.id }}" class="btn btn-secondary">Cancelar</a>
+
+</form>
+
+{% include "footer.html" %}
