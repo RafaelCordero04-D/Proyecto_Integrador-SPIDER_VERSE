@@ -1,0 +1,29 @@
+{% include "header.html" %}
+
+<h3>Detalles del SpiderMan</h3>
+
+<div class="spiderMan-details">
+    <h2>Nombre: {{ SpiderMan.name }}</h2>
+    <p><strong>Alias:</strong> {{ SpiderMan.alias }}</p>
+
+    <p><strong>Habilidades:</strong> {{ SpiderMan.skills }}</p>
+
+    <p><strong>Estado:</strong> {% if SpiderMan.alive %} Vivo {% else %} Fallecido {% endif %}</p>
+
+    <p><strong>Imagen:</strong></p>
+    {% if SpiderMan.img %}
+    <img src="{{ SpiderMan.img }}" alt="Imagen de {{ SpiderMan.name }}" style="max-width: 300px; height: auto;">
+    {% endif %}
+
+    <br><br>
+    <a href="/universes/{{ universe.id }}" class="btn btn-primary">Ver Spider-Mans</a>
+
+    <a href="/SpiderMans/{{ SpiderMan.id }}/edit" class="btn btn-warning">Editar</a>
+
+    <form action="/SpiderMans/{{ SpiderMan.id }}/delete" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger"
+            onclick="return confirm('¿Estás seguro de que quieres eliminar este SpiderMan?');">Eliminar</button>
+    </form>
+</div>
+
+{% include "footer.html" %}
