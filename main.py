@@ -7,6 +7,7 @@ from fastapi.responses import HTMLResponse
 import Spiderman
 import universe
 import pelicula
+import restore
 from db import create_tables
 
 
@@ -20,6 +21,7 @@ app.mount("/TemplatesHTML", StaticFiles(directory="TemplatesHTML"), name="Templa
 app.include_router(Spiderman.router, tags=["SpiderMan"], prefix="/SpiderMans")
 app.include_router(universe.router, tags=["universe"], prefix="/universes")
 app.include_router(pelicula.router, tags=["pelicula"], prefix="/peliculas")
+app.include_router(restore.router, tags=["restore"], prefix="/restore")
 
 
 Templates = Jinja2Templates(directory="TemplatesHTML")

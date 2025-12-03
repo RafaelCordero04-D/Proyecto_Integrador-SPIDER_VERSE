@@ -43,8 +43,8 @@ async def update_pelicula(new_pelicula: peliculaUpdate, pelicula_id:int, session
     pelicula_db = session.get(Pelicula, pelicula_id)
     if not pelicula_db:
         raise HTTPException(status_code=404, detail="Pelicula not found")
-    pelicula_Update = new_pelicula.model_dump(exclude_unset=True)
-    pelicula_db.sqlmodel_update(pelicula_Update)
+    pelicula_data = new_pelicula.model_dump(exclude_unset=True)
+    pelicula_db.sqlmodel_update(pelicula_data)
     session.add(pelicula_db)
     session.commit()
     session.refresh(pelicula_db)

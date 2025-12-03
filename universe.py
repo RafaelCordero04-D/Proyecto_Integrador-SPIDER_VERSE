@@ -43,7 +43,7 @@ async def get_one_universe(request: Request, universe_id: int, session: SessionD
 
 @router.get("/", response_class=HTMLResponse)
 async def get_all_universes(request: Request, session:SessionDep):
-    result = await session.execute(select(universe))
+    result = await session.execute(select(universe).where(universe.status == True))
     universes = result.scalars().all()
     return Templates.TemplateResponse("universe_list.html", {"request": request, "universes": universes})
 
@@ -55,7 +55,8 @@ async def get_universe_SpiderMans(request: Request, universe_id: int, session: S
 
     await session.refresh(Universe, ["spiderMans"])
 
-    return Templates.TemplateResponse("universe_spiderMans.html", {"request": request, "universe": Universe, "spiderMans": Universe.spiderMans})
+    active_spiderMans = [s for s in Universe.spiderMans if s.status]
+    return Templates.TemplateResponse("universe_spiderMans.html", {"request": request, "universe": Universe, "spiderMans": active_spiderMans})
 
 ##Formulario para editar Universo
 
@@ -91,3 +92,24 @@ async def update_universe(
     await session.refresh(Universe_db)
 
     return RedirectResponse(url=f"/universes/{Universe_db.id}", status_code=302)
+
+
+@router.post("/{universe_id}/delete", response_class=HTMLResponse)
+async def delete_universe(universe_id: int, session: SessionDep):
+    universe_db = await session.get(universe, universe_id)
+    if not universe_db:
+        raise HTTPException(status_code=404, detail="Universe not found")
+
+    # Eliminación para Universe
+    universe_db.status = False
+    session.add(universe_db)
+
+    await session.refresh(universe_db, ["spiderMans"])
+    
+    for spider in universe_db.spiderMans:
+        spider.status = False
+        session.add(spider)
+
+    await session.commit()
+    
+    return RedirectResponse(url="/universes/", status_code=302)

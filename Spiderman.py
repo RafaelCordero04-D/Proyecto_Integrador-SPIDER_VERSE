@@ -138,7 +138,7 @@ async def kill_one_spiderMan(spiderMan_id:int, session: SessionDep):
 #BUSCAR TODOS LOS SPIDERMANS
 @router.get("/", response_class=HTMLResponse)
 async def get_all_SpiderMan(request: Request, session: SessionDep):
-    result = await session.execute(select(SpiderMan))
+    result = await session.execute(select(SpiderMan).where(SpiderMan.status == True))
     spiderMans = result.scalars().all()
     for sm in spiderMans:
         print(f"SpiderMan: {sm.name}, Img: {sm.img}")
