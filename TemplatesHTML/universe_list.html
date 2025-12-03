@@ -1,0 +1,10 @@
+{% include 'header.html' %}
+
+<a href="/universes/newUniverse">Crear Universo</a>
+<h1>Universos del SpiderVerse</h1>
+
+{% for universe in universes %}
+    {% include 'universe_card.html' %}
+{% endfor %}
+
+{% include 'footer.html' %}
