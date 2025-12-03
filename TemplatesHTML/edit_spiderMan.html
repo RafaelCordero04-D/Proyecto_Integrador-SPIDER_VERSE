@@ -1,0 +1,36 @@
+{% include "header.html" %}
+
+<h1>Editar SpiderMan</h1>
+
+<form method="post" action="/SpiderMans/{{ SpiderMan.id }}/update" enctype="multipart/form-data">
+
+    <input type="hidden" name="universe_id" value="{{ universe_id }}">
+
+    <h3>Nombre</h3>
+    <input type="text" name="name" value="{{ SpiderMan.name }}">
+
+    <h3>Alias</h3>
+    <input type="text" name="alias" value="{{ SpiderMan.alias }}">
+
+    <h3>Habilidades</h3>
+    <input type="text" name="skills" value="{{ SpiderMan.skills }}">
+
+    <h3>Estado</h3>
+    <input type="radio" name="alive" value="true" {% if SpiderMan.alive %}checked{% endif %}> Alive
+    <input type="radio" name="alive" value="false" {% if not SpiderMan.alive %}checked{% endif %}> Not Alive
+
+    <h3>Imagen Actual</h3>
+    {% if SpiderMan.img %}
+    <img src="{{ SpiderMan.img }}" alt="{{ SpiderMan.name }}" style="max-width: 200px;">
+    {% endif %}
+
+    <h3>Cambiar Imagen</h3>
+    <input type="file" name="img" accept="image/*">
+
+    <br><br>
+    <input type="submit" value="Actualizar SpiderMan" class="btn btn-primary">
+    <a href="/SpiderMans/{{ SpiderMan.id }}" class="btn btn-secondary">Cancelar</a>
+
+</form>
+
+{% include "footer.html" %}
