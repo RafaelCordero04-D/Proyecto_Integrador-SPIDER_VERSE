@@ -1,0 +1,27 @@
+{% include "header.html" %}
+
+<h1>Registrar nuevo SpiderMan</h1>
+
+<form method="post" action="/SpiderMans/" enctype="multipart/form-data">
+
+    <input type="hidden" name="universe_id" value="{{ universe_id }}">
+
+    <h3>Nombre</h3>
+    <input type="text" name="name">
+
+    <h3>Alias</h3>
+    <input type="text" name="alias">
+
+    <h3>Habilidades</h3>
+    <input type="text" name="skills">
+
+    <h3>Estado</h3>
+    <input type="radio" name="alive" value="true" checked> Alive
+    <input type="radio" name="alive" value="false"> Not Alive
+
+    <h3>Imagen</h3>
+    <input type="file" name="img" accept="image/*">
+
+    <input type="submit" value="Registrar SpiderMan">
+
+</form>
