@@ -1,0 +1,3 @@
+Checking columns...
+Found columns: ['name', 'description', 'characters', 'id', 'status']
+Status column ALREADY EXISTS.
