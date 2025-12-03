@@ -23,6 +23,7 @@ app.include_router(universe.router, tags=["universe"], prefix="/universes")
 app.include_router(pelicula.router, tags=["pelicula"], prefix="/peliculas")
 app.include_router(restore.router, tags=["restore"], prefix="/restore")
 
+app.mount("/estilos", StaticFiles(directory="estilos"), name="estilos")
 
 Templates = Jinja2Templates(directory="TemplatesHTML")
 
@@ -34,7 +35,7 @@ async def root():
 async def say_hello(name: str):
     return {"message": f"Hello {name}"}
 
-@app.get("/nombre/{name]")
+@app.get("/nombre/{name}")
 async def say_yourName(name: str):
     return {"presentation": f"Mi nombre es {name}"}
 
