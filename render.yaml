@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: spiderman-api
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: POSTGRESQL_ADDON_USER
+        sync: false
+      - key: POSTGRESQL_ADDON_PASSWORD
+        sync: false
+      - key: POSTGRESQL_ADDON_HOST
+        sync: false
+      - key: POSTGRESQL_ADDON_PORT
+        sync: false
+      - key: POSTGRESQL_ADDON_DB
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
