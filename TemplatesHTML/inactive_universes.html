@@ -1,0 +1,35 @@
+{% include 'header.html' %}
+
+<div class="container mt-4">
+    <h2>Universos Desactivados</h2>
+    <a href="/universes/" class="btn btn-secondary mb-3">Volver a Universos</a>
+
+    {% if universes %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in universes %}
+            <tr>
+                <td>{{ u.name }}</td>
+                <td>{{ u.description }}</td>
+                <td>
+                    <form action="/restore/universes/{{ u.id }}/activate" method="post">
+                        <button type="submit" class="btn btn-success">Activar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay universos desactivados.</p>
+    {% endif %}
+</div>
+
+{% include 'footer.html' %}

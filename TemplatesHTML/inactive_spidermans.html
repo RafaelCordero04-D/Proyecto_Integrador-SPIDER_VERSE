@@ -1,0 +1,35 @@
+{% include 'header.html' %}
+
+<div class="container mt-4">
+    <h2>Spidermans Desactivados</h2>
+    <a href="/SpiderMans/" class="btn btn-secondary mb-3">Volver a Spidermans</a>
+
+    {% if spidermans %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Alias</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in spidermans %}
+            <tr>
+                <td>{{ s.name }}</td>
+                <td>{{ s.alias }}</td>
+                <td>
+                    <form action="/restore/spidermans/{{ s.id }}/activate" method="post">
+                        <button type="submit" class="btn btn-success">Activar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay Spidermans desactivados.</p>
+    {% endif %}
+</div>
+
+{% include 'footer.html' %}
