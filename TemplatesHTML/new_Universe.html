@@ -1,0 +1,18 @@
+{% include "header.html" %}
+
+<h1>Registrar un nuevo Universo</h1>
+
+<form method="post" action="/universes/" enctype="multipart/form-data">
+    <h3>Nombre del Universo</h3>
+    <input type="text" name="nameUniverse">
+
+    <h3>Descripción</h3>
+    <input type="text" name="descriptionUniverse">
+
+    <h3>Personajes</h3>
+    <input type="text" name="personajesUniverse">
+
+    <input type="submit" value="Registrar Universo">
+</form>
+
+{% include "footer.html" %}
