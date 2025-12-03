@@ -1,0 +1,34 @@
+<div class="card" style="width: 18rem;">
+
+  {% if show_link|default(True) %}
+  <a href="/SpiderMans/{{ SpiderMan.id }}">
+    {% endif %}
+    {% if SpiderMan.img %}
+    <img src="{{ SpiderMan.img }}" alt="{{ SpiderMan.name }}" class="card-img-top">
+    <p class="text-muted" style="font-size: 10px;">{{ SpiderMan.img }}</p>
+    {% else %}
+    <p>No image</p>
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">SpiderMan</h5>
+      <p class="card-text">{{ SpiderMan.name }}</p>
+    </div>
+
+    {% if SpiderMan.alive %}
+    <h4>Alive</h4>
+    {% else %}
+    <h4>Not Alive</h4>
+    {% endif %}
+    {% if show_link|default(True) %}
+  </a>
+  {% endif %}
+
+  <div class="card-body">
+    <a href="/SpiderMans/{{ SpiderMan.id }}/edit" class="card-link btn btn-sm btn-warning">Editar</a>
+
+    <form action="/SpiderMans/{{ SpiderMan.id }}/delete" method="post" style="display:inline;">
+      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar?');">Eliminar</button>
+    </form>
+  </div>
+
+</div>
