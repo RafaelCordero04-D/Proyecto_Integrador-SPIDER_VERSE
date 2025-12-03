@@ -14,6 +14,7 @@ class universeBase(SQLModel):
     name:str | None= Field(description= "Universe name")
     description:str | None= Field(description= "Universe description")
     characters: str | None = Field(description = "Universe characters")
+    status: bool | None = Field(description="True = active, False= deleted", default=True)
 
 class universe(universeBase, table=True):
     id: int | None = Field(default = None, primary_key=True)
