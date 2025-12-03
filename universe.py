@@ -57,31 +57,37 @@ async def get_universe_SpiderMans(request: Request, universe_id: int, session: S
 
     return Templates.TemplateResponse("universe_spiderMans.html", {"request": request, "universe": Universe, "spiderMans": Universe.spiderMans})
 
-#@router.get("/search/", response_model=list[universe])
-#async def get_universe_by_name(name:str, session: SessionDep):
-    #statement = select(universe).where(universe.name.ilike(f"%{name}%"))
-    #results = session.exec(statement).all()
-    #if not results:
-        #raise HTTPException(status_code=404, detail="No Universe found with that name")
-    #return results
+##Formulario para editar Universo
 
-#@router.patch("/{universe_id}")
-#async def update_universe(new_universe: universeUpdate, universe_id:int, session:SessionDep):
-    #universe_db = session.get(universe, universe_id)
-    #if not universe_db:
-        #raise HTTPException(status_code=404, detail="Universe not found")
-    #universe_update = new_universe.model_dump(exclude_unset=True)
-    #universe_db.sqlmodel_update(universe_update)
-    #session.add(universe_db)
-    #session.commit()
-    #session.refresh(universe_db)
-    #return universe_db
+@router.get("/{universe_id}/edit", response_class=HTMLResponse)
+async def edit_universe_form(request: Request, universe_id: int, session: SessionDep):
+    Universe_db = await session.get(universe, universe_id)
+    if not Universe_db:
+        raise HTTPException(status_code=404, detail="Universe not found")
+    return Templates.TemplateResponse("edit_universe.html", {"request": request, "universe": Universe_db})
 
-#@router.delete("/{universe_id}")
-#async def kill_one_universe(universe_id:int, session:SessionDep):
-    #universe_db = session.get(universe, universe_id)
-    #if not universe_db:
-        #raise HTTPException(status_code= 404, detail="Universe not found")
-    #session.delete(universe_db)
-    #session.commit()
-    #return {"Universe has been deleted"}#
+##Actualizar informacion de universos
+@router.post("/{universe_id}/update", response_class=HTMLResponse)
+async def update_universe(
+        request: Request,
+        universe_id: int,
+        session: SessionDep,
+        name: str = Form(..., alias="nameUniverse"),
+        description: str = Form(..., alias="descriptionUniverse"),
+        characters: str = Form(..., alias="personajesUniverse"),
+
+):
+    Universe_db = await session.get(universe, universe_id)
+    if not Universe_db:
+        raise HTTPException(status_code=404, detail="Universe not found")
+
+
+    Universe_db.name = name
+    Universe_db.description = description
+    Universe_db.characters = characters
+
+    session.add(Universe_db)
+    await session.commit()
+    await session.refresh(Universe_db)
+
+    return RedirectResponse(url=f"/universes/{Universe_db.id}", status_code=302)
