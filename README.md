@@ -73,6 +73,7 @@ Bienvenido al **Spider-Verse API**, una aplicación web completa construida con 
     SUPABASE_URL=tu_url_supabase
     SUPABASE_KEY=tu_key_supabase
     ```
+    Url del bucket y dataBase de SupaBase: https://supabase.com/dashboard/project/uiiszifzqbwhffrcryeo/editor/25245
 
 5.  **Ejecutar la aplicación:**
     ```bash
