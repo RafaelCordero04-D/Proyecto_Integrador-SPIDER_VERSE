@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Form, File, UploadFile, Request
 from models import Pelicula, peliculaCreate, peliculaUpdate, SpiderMan, SpiderManPeliculaLink
 from sqlmodel import select
 from fastapi.templating import Jinja2Templates
-from typing import Optional
+from typing import Optional, List
 import time
 
 from SupaBase.Supa import upload_to_bucket
@@ -15,8 +15,15 @@ Templates = Jinja2Templates(directory="TemplatesHTML")
 
 # MOSTRAR FORMULARIO PARA CREAR PELÍCULA
 @router.get("/newPelicula", response_class=HTMLResponse)
-async def show_create_pelicula(request: Request):
-    return Templates.TemplateResponse("new_pelicula.html", {"request": request})
+async def show_create_pelicula(request: Request, session: SessionDep):
+    # Fetch all active Spider-Mans
+    result = await session.execute(select(SpiderMan).where(SpiderMan.status == True))
+    all_spidermans = result.scalars().all()
+    
+    return Templates.TemplateResponse("new_pelicula.html", {
+        "request": request,
+        "all_spidermans": all_spidermans
+    })
 
 # CREAR PELÍCULA
 @router.post("/", response_model=Pelicula, status_code=201)
@@ -28,7 +35,8 @@ async def create_pelicula(
     taquilla: float = Form(..., alias="taquilla"),
     director: str = Form(..., alias="director"),
     characters: str = Form(..., alias="characters"),
-    img: Optional[UploadFile] = File(None)
+    img: Optional[UploadFile] = File(None),
+    spiderman_ids: List[int] = Form([])
 ):
     print(f"Received data: titulo={titulo}, año={año}, director={director}")
     
@@ -66,6 +74,14 @@ async def create_pelicula(
         await session.commit()
         await session.refresh(pelicula)
         print(f"Pelicula saved with ID: {pelicula.id}")
+        
+        # Add selected Spider-Mans
+        if spiderman_ids:
+            for spiderman_id in spiderman_ids:
+                link = SpiderManPeliculaLink(pelicula_id=pelicula.id, spiderMan_id=spiderman_id)
+                session.add(link)
+            await session.commit()
+            
     except Exception as e:
         print(f"Error DB: {e}")
         raise HTTPException(status_code=400, detail=f"Error al guardar datos: {str(e)}")
@@ -82,7 +98,7 @@ async def get_one_pelicula(request: Request, pelicula_id: int, session: SessionD
     # Load the SpiderMans relationships
     await session.refresh(pelicula_db, ["spiderMans"])
     
-    # Get all available SpiderMans for the dropdown
+    # Get all available SpiderMans for the dropdown (optional, but good for consistency)
     result = await session.execute(select(SpiderMan).where(SpiderMan.status == True))
     all_spidermans = result.scalars().all()
     
@@ -99,9 +115,18 @@ async def edit_pelicula_form(request: Request, pelicula_id: int, session: Sessio
     pelicula_db = await session.get(Pelicula, pelicula_id)
     if not pelicula_db:
         raise HTTPException(status_code=404, detail="Película no encontrada")
+    
+    # Load current relationships
+    await session.refresh(pelicula_db, ["spiderMans"])
+    
+    # Fetch all active Spider-Mans
+    result = await session.execute(select(SpiderMan).where(SpiderMan.status == True))
+    all_spidermans = result.scalars().all()
+    
     return Templates.TemplateResponse("edit_pelicula.html", {
         "request": request,
-        "pelicula": pelicula_db
+        "pelicula": pelicula_db,
+        "all_spidermans": all_spidermans
     })
 
 # ACTUALIZAR INFORMACIÓN DE LA PELÍCULA
@@ -115,7 +140,8 @@ async def update_pelicula(
     taquilla: float = Form(..., alias="taquilla"),
     director: str = Form(..., alias="director"),
     characters: str = Form(..., alias="characters"),
-    img: Optional[UploadFile] = File(None)
+    img: Optional[UploadFile] = File(None),
+    spiderman_ids: List[int] = Form([])
 ):
     pelicula_db = await session.get(Pelicula, pelicula_id)
     if not pelicula_db:
@@ -142,6 +168,29 @@ async def update_pelicula(
             # Continue updating other fields even if image upload fails
     
     session.add(pelicula_db)
+    await session.commit()
+    await session.refresh(pelicula_db)
+    
+    # Update Spider-Man relationships
+    # Get current links
+    statement = select(SpiderManPeliculaLink).where(SpiderManPeliculaLink.pelicula_id == pelicula_id)
+    results = await session.execute(statement)
+    current_links = results.scalars().all()
+    current_spiderman_ids = {link.spiderMan_id for link in current_links}
+    
+    new_spiderman_ids = set(spiderman_ids)
+    
+    # Remove links that are not in the new list
+    for link in current_links:
+        if link.spiderMan_id not in new_spiderman_ids:
+            await session.delete(link)
+            
+    # Add new links
+    for spiderman_id in new_spiderman_ids:
+        if spiderman_id not in current_spiderman_ids:
+            link = SpiderManPeliculaLink(pelicula_id=pelicula_id, spiderMan_id=spiderman_id)
+            session.add(link)
+            
     await session.commit()
     await session.refresh(pelicula_db)
     
