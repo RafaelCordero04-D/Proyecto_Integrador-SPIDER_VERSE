@@ -19,7 +19,7 @@ SUPABASE_DB = (
 ##db_name = "SpiderMans.sqlite3"
 ##db_url = f"sqlite:///{db_name}"
 
-engine : AsyncEngine = create_async_engine(SUPABASE_DB, echo=True)
+engine : AsyncEngine = create_async_engine(SUPABASE_DB, echo=True, pool_pre_ping=True)
 async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
 ##Engine con SQL
