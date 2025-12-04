@@ -1,18 +1,39 @@
 {% include "header.html" %}
 
-<h1>Registrar un nuevo Universo</h1>
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg p-4"> <h1 class="text-center mb-4">Registrar Nuevo Universo</h1>
 
-<form method="post" action="/universes/" enctype="multipart/form-data">
-    <h3>Nombre del Universo</h3>
-    <input type="text" name="nameUniverse">
+                <form method="post" action="/universes/" enctype="multipart/form-data">
 
-    <h3>Descripción</h3>
-    <input type="text" name="descriptionUniverse">
+                    <div class="mb-3">
+                        <label for="nameUniverse" class="form-label">Nombre del Universo</label>
+                        <input type="text" class="form-control" id="nameUniverse" name="nameUniverse" required
+                            placeholder="Ej: Earth-616, Tierra-1610">
+                    </div>
 
-    <h3>Personajes</h3>
-    <input type="text" name="personajesUniverse">
+                    <div class="mb-3">
+                        <label for="descriptionUniverse" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="descriptionUniverse" name="descriptionUniverse" rows="4"
+                            required placeholder="Ej: La dimensión principal del multiverso, hogar de Peter Parker original."></textarea>
+                        <div class="form-text">Describe brevemente las características de esta realidad.</div>
+                    </div>
 
-    <input type="submit" value="Registrar Universo">
-</form>
+                    <div class="mb-4">
+                        <label for="personajesUniverse" class="form-label">Personajes Clave</label>
+                        <input type="text" class="form-control" id="personajesUniverse" name="personajesUniverse"
+                            placeholder="Ej: Tía May, Mary Jane, Doctor Octopus">
+                        <div class="form-text">Menciona personajes secundarios o villanos importantes.</div>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg mt-3">Registrar Universo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
 
 {% include "footer.html" %}

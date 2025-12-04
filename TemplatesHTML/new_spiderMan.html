@@ -1,27 +1,55 @@
 {% include "header.html" %}
 
-<h1>Registrar nuevo SpiderMan</h1>
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg p-4"> <h1 class="text-center mb-4">Registrar Nuevo SpiderMan</h1>
 
-<form method="post" action="/SpiderMans/" enctype="multipart/form-data">
+                <form method="post" action="/SpiderMans/" enctype="multipart/form-data">
+                    <input type="hidden" name="universe_id" value="{{ universe_id }}">
 
-    <input type="hidden" name="universe_id" value="{{ universe_id }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="name" name="name" required placeholder="Ej: Miles Morales">
+                    </div>
 
-    <h3>Nombre</h3>
-    <input type="text" name="name">
+                    <div class="mb-3">
+                        <label for="alias" class="form-label">Alias</label>
+                        <input type="text" class="form-control" id="alias" name="alias" required placeholder="Ej: Spider-Man, Spidey">
+                    </div>
 
-    <h3>Alias</h3>
-    <input type="text" name="alias">
+                    <div class="mb-3">
+                        <label for="skills" class="form-label">Habilidades</label>
+                        <textarea class="form-control" id="skills" name="skills" rows="3" required placeholder="Ej: Sentido arácnido, Bio-electricidad, Invisibilidad."></textarea>
+                        <div class="form-text">Describe brevemente sus poderes únicos.</div>
+                    </div>
 
-    <h3>Habilidades</h3>
-    <input type="text" name="skills">
+                    <div class="mb-3">
+                        <label class="form-label d-block">Estado</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="alive" id="aliveTrue" value="true" checked>
+                            <label class="form-check-label" for="aliveTrue">Vivo (Alive)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="alive" id="aliveFalse" value="false">
+                            <label class="form-check-label" for="aliveFalse">Fallecido (Not Alive)</label>
+                        </div>
+                    </div>
 
-    <h3>Estado</h3>
-    <input type="radio" name="alive" value="true" checked> Alive
-    <input type="radio" name="alive" value="false"> Not Alive
+                    <div class="mb-4">
+                        <label for="img" class="form-label">Imagen (Póster/Arte)</label>
+                        <input class="form-control" type="file" id="img" name="img" accept="image/*">
+                        <div class="form-text">Sube una imagen representativa del personaje.</div>
+                    </div>
 
-    <h3>Imagen</h3>
-    <input type="file" name="img" accept="image/*">
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg mt-3">Registrar SpiderMan</button>
+                    </div>
 
-    <input type="submit" value="Registrar SpiderMan">
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
 
-</form>
+{% include 'footer.html' %}
