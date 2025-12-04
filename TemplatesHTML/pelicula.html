@@ -1,0 +1,140 @@
+{% include "header.html" %}
+
+<main class="container mt-5 movie-detail-page">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="page-title">Detalles de la Película</h1>
+        <a href="/peliculas/" class="btn btn-outline-secondary">Volver a la Lista</a>
+    </div>
+
+    <article class="movie-content card shadow-sm mb-5">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <div class="movie-image-wrapper h-100 bg-light d-flex align-items-center justify-content-center">
+                    {% if pelicula.img %}
+                    <img src="{{ pelicula.img }}" alt="Póster de {{ pelicula.titulo }}"
+                        class="img-fluid rounded-start w-100 h-100 object-fit-cover" style="max-height: 500px;">
+                    {% else %}
+                    <div class="text-muted p-5 text-center">
+                        <i class="bi bi-film display-1"></i>
+                        <p class="mt-2">Sin póster disponible</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body p-4">
+                    <header class="movie-header mb-4 border-bottom pb-3">
+                        <h2 class="movie-title display-5">{{ pelicula.titulo }}</h2>
+                        <div class="movie-meta text-muted">
+                            <span class="movie-year badge bg-secondary">{{ pelicula.año }}</span>
+                            <span class="movie-director ms-2">Dirigida por <strong>{{ pelicula.director
+                                    }}</strong></span>
+                        </div>
+                    </header>
+
+                    <section class="movie-info mb-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="info-group mb-3">
+                                    <h5 class="text-uppercase text-muted small">Taquilla</h5>
+                                    <p class="lead fw-bold text-success">${{ "{:,.2f}".format(pelicula.taquilla) }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="info-group mb-3">
+                                    <h5 class="text-uppercase text-muted small">Personajes Principales</h5>
+                                    <p>{{ pelicula.characters }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="movie-actions d-flex gap-2 mt-auto">
+                        <a href="/peliculas/{{ pelicula.id }}/edit" class="btn btn-warning">
+                            <i class="bi bi-pencil"></i> Editar Película
+                        </a>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Sección de SpiderMans en la película -->
+    <section class="related-spidermans-section mb-5">
+        <h3 class="section-title mb-4 border-start border-4 border-primary ps-3">SpiderMans en esta película</h3>
+
+        {% if pelicula.spiderMans %}
+        <div class="row g-4 spiderman-grid">
+            {% for spiderman in pelicula.spiderMans %}
+            <div class="col-md-6 col-lg-3">
+                <article class="card h-100 spiderman-card hover-shadow transition-all">
+                    <div class="card-img-wrapper position-relative" style="height: 250px; overflow: hidden;">
+                        {% if spiderman.img %}
+                        <img src="{{ spiderman.img }}" alt="{{ spiderman.name }}"
+                            class="card-img-top w-100 h-100 object-fit-cover">
+                        {% else %}
+                        <div class="bg-secondary w-100 h-100 d-flex align-items-center justify-content-center">
+                            <span class="text-white">Sin imagen</span>
+                        </div>
+                        {% endif %}
+                        <div class="card-img-overlay d-flex align-items-end p-0">
+                            <div class="bg-dark bg-opacity-75 w-100 p-2 text-white">
+                                <h5 class="card-title mb-0 fs-6">{{ spiderman.name }}</h5>
+                                <small class="d-block text-light opacity-75">{{ spiderman.alias }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center p-3">
+                        <a href="/SpiderMans/{{ spiderman.id }}"
+                            class="btn btn-sm btn-outline-primary stretched-link">Ver</a>
+                        <form action="/peliculas/{{ pelicula.id }}/remove-spiderman/{{ spiderman.id }}" method="post"
+                            style="z-index: 2; position: relative;">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Quitar de la película"
+                                onclick="return confirm('¿Quitar a {{ spiderman.name }} de esta película?');">
+                                <i class="bi bi-trash"></i> Quitar
+                            </button>
+                        </form>
+                    </div>
+                </article>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info d-flex align-items-center" role="alert">
+            <i class="bi bi-info-circle me-2"></i>
+            <div>No hay SpiderMans asociados a esta película aún.</div>
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Formulario para agregar SpiderMan -->
+    <section class="add-spiderman-section card bg-light border-0 mb-5">
+        <div class="card-body p-4">
+            <h4 class="mb-3">Agregar SpiderMan a la película</h4>
+            {% if available_spidermans %}
+            <form action="/peliculas/{{ pelicula.id }}/add-spiderman" method="post" class="row g-3 align-items-end">
+                <div class="col-md-8">
+                    <label for="spiderman_select" class="form-label text-muted small text-uppercase">Seleccionar
+                        SpiderMan</label>
+                    <select name="spiderman_id" id="spiderman_select" class="form-select form-select-lg" required>
+                        <option value="">Elige un SpiderMan disponible...</option>
+                        {% for sm in available_spidermans %}
+                        <option value="{{ sm.id }}">{{ sm.name }} ({{ sm.alias }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-success btn-lg w-100">
+                        <i class="bi bi-plus-circle"></i> Agregar
+                    </button>
+                </div>
+            </form>
+            {% else %}
+            <p class="text-muted mb-0">Todos los SpiderMans activos ya están en esta película.</p>
+            {% endif %}
+        </div>
+    </section>
+</main>
+
+{% include "footer.html" %}
