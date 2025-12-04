@@ -1,0 +1,31 @@
+{% include 'header.html' %}
+
+<main class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-4">🎬 Todas las Películas</h1>
+        <a href="/peliculas/newPelicula" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Nueva Película
+        </a>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% if peliculas %}
+        {% for pelicula in peliculas %}
+        {% include 'pelicula_card.html' %}
+        {% endfor %}
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-info text-center" role="alert">
+                <i class="bi bi-film display-4 d-block mb-3"></i>
+                <h4>No hay películas registradas</h4>
+                <p class="mb-3">Comienza agregando tu primera película del Spider-Verse</p>
+                <a href="/peliculas/newPelicula" class="btn btn-primary">
+                    <i class="bi bi-plus-lg"></i> Crear Primera Película
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</main>
+
+{% include 'footer.html' %}
