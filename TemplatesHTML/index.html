@@ -1,0 +1,81 @@
+% include 'header.html' %}
+
+<main>
+    <!-- Hero Section -->
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light display-3 mb-3">Bienvenido al Spider-Verse</h1>
+                <p class="lead mb-4" style="color: #C9D1D9; font-size: 1.25rem;">Explora el multiverso, descubre
+                    infinitas variantes de Spider-Man y sus
+                    historias cinematográficas. Una API completa para gestionar tu propio universo arácnido.</p>
+                <p>
+                    <a href="/SpiderMans/" class="btn btn-primary my-2 btn-lg">Ver SpiderMans</a>
+                    <a href="/universes/" class="btn btn-secondary my-2 btn-lg">Explorar Universos</a>
+                </p>
+            </div>
+        </div>
+    </section>
+{
+    <!-- Features Section -->
+    <div class="album py-5" style="background-color: #0D1117;">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+                <!-- Universes Card -->
+                <div class="col">
+                    <div class="card shadow-sm h-100 border-0 hover-shadow transition-all">
+                        <div class="card-body text-center p-5">
+                            <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center"
+                                style="width: 64px; height: 64px;">
+                                <i class="bi bi-globe display-6"></i>
+                            </div>
+                            <h2 class="card-title">Universos</h2>
+                            <p class="card-text" style="color: #C9D1D9">Gestiona múltiples realidades. Crea y explora
+                                diferentes tierras y
+                                dimensiones donde habitan nuestros héroes.</p>
+                            <a href="/universes/" class="btn btn-outline-primary mt-3">Ir a Universos</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SpiderMans Card -->
+                <div class="col">
+                    <div class="card shadow-sm h-100 border-0 hover-shadow transition-all">
+                        <div class="card-body text-center p-5">
+                            <div class="feature-icon bg-danger bg-gradient text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center"
+                                style="width: 64px; height: 64px;">
+                                <i class="bi bi-person-badge display-6"></i>
+                            </div>
+                            <h2 class="card-title">SpiderMans</h2>
+                            <p class="card-text" style="color: #C9D1D9">El corazón del multiverso. Registra variantes,
+                                sus habilidades,
+                                identidades secretas y su estado actual.</p>
+                            <a href="/SpiderMans/" class="btn btn-outline-danger mt-3">Ir a SpiderMans</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Movies Card -->
+                <div class="col">
+                    <div class="card shadow-sm h-100 border-0 hover-shadow transition-all">
+                        <div class="card-body text-center p-5">
+                            <div class="feature-icon bg-warning bg-gradient text-dark rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center"
+                                style="width: 64px; height: 64px;">
+                                <i class="bi bi-film display-6"></i>
+                            </div>
+                            <h2 class="card-title">Películas</h2>
+                            <p class="card-text" style="color: #C9D1D9">Documenta las apariciones cinematográficas.
+                                Vincula SpiderMans a sus
+                                películas y lleva un registro de taquilla.</p>
+                            <a href="/peliculas/" class="btn btn-outline-warning mt-3">Ir a Películas</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+{% include 'footer.html' %}
