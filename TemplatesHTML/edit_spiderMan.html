@@ -1,36 +1,67 @@
 {% include "header.html" %}
 
-<h1>Editar SpiderMan</h1>
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg p-4">
+                <h1 class="text-center mb-4">Editar SpiderMan</h1>
 
-<form method="post" action="/SpiderMans/{{ SpiderMan.id }}/update" enctype="multipart/form-data">
+                <form method="post" action="/SpiderMans/{{ SpiderMan.id }}/update" enctype="multipart/form-data">
 
-    <input type="hidden" name="universe_id" value="{{ universe_id }}">
+                    <input type="hidden" name="universe_id" value="{{ SpiderMan.universe_id }}">
 
-    <h3>Nombre</h3>
-    <input type="text" name="name" value="{{ SpiderMan.name }}">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ SpiderMan.name }}" required>
+                    </div>
 
-    <h3>Alias</h3>
-    <input type="text" name="alias" value="{{ SpiderMan.alias }}">
+                    <div class="mb-3">
+                        <label for="alias" class="form-label">Alias</label>
+                        <input type="text" class="form-control" id="alias" name="alias" value="{{ SpiderMan.alias }}" required>
+                    </div>
 
-    <h3>Habilidades</h3>
-    <input type="text" name="skills" value="{{ SpiderMan.skills }}">
+                    <div class="mb-3">
+                        <label for="skills" class="form-label">Habilidades</label>
+                        <textarea class="form-control" id="skills" name="skills" rows="3" required>{{ SpiderMan.skills }}</textarea>
+                    </div>
 
-    <h3>Estado</h3>
-    <input type="radio" name="alive" value="true" {% if SpiderMan.alive %}checked{% endif %}> Alive
-    <input type="radio" name="alive" value="false" {% if not SpiderMan.alive %}checked{% endif %}> Not Alive
+                    <div class="mb-4">
+                        <label class="form-label d-block">Estado</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="alive" id="aliveTrue" value="true" {% if SpiderMan.alive %}checked{% endif %}>
+                            <label class="form-check-label" for="aliveTrue">Vivo (Alive)</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="alive" id="aliveFalse" value="false" {% if not SpiderMan.alive %}checked{% endif %}>
+                            <label class="form-check-label" for="aliveFalse">Fallecido (Not Alive)</label>
+                        </div>
+                    </div>
 
-    <h3>Imagen Actual</h3>
-    {% if SpiderMan.img %}
-    <img src="{{ SpiderMan.img }}" alt="{{ SpiderMan.name }}" style="max-width: 200px;">
-    {% endif %}
+                    <div class="mb-4">
+                        <h4 class="form-label">Imagen Actual</h4>
+                        {% if SpiderMan.img %}
+                        <div class="mb-3">
+                            <img src="{{ SpiderMan.img }}" alt="{{ SpiderMan.name }}" class="img-thumbnail" style="max-height: 150px;">
+                            <small class="text-muted d-block">URL: {{ SpiderMan.img }}</small>
+                        </div>
+                        {% else %}
+                        <p class="text-muted">No hay imagen actual.</p>
+                        {% endif %}
 
-    <h3>Cambiar Imagen</h3>
-    <input type="file" name="img" accept="image/*">
+                        <label for="img" class="form-label">Cambiar Imagen</label>
+                        <input class="form-control" type="file" id="img" name="img" accept="image/*">
+                        <div class="form-text">Sube una nueva imagen para reemplazar la actual.</div>
+                    </div>
 
-    <br><br>
-    <input type="submit" value="Actualizar SpiderMan" class="btn btn-primary">
-    <a href="/SpiderMans/{{ SpiderMan.id }}" class="btn btn-secondary">Cancelar</a>
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="/SpiderMans/{{ SpiderMan.id }}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4">Actualizar SpiderMan</button>
+                    </div>
 
-</form>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
 
 {% include "footer.html" %}

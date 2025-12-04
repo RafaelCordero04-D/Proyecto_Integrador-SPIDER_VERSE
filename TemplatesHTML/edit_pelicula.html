@@ -57,6 +57,34 @@
                                 required>{{ pelicula.characters }}</textarea>
                         </div>
 
+                        <div class="mb-4">
+                            <label class="form-label d-block">Seleccionar Spider-Mans</label>
+                            <div class="card bg-dark border-secondary">
+                                <div class="card-body" style="max-height: 200px; overflow-y: auto;">
+                                    {% if all_spidermans %}
+                                    <div class="row row-cols-1 row-cols-md-2 g-2">
+                                        {% for spiderman in all_spidermans %}
+                                        <div class="col">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="spiderman_ids"
+                                                    value="{{ spiderman.id }}" id="spider_{{ spiderman.id }}" {% if
+                                                    spiderman in pelicula.spiderMans %}checked{% endif %}>
+                                                <label class="form-check-label text-white"
+                                                    for="spider_{{ spiderman.id }}">
+                                                    {{ spiderman.name }} ({{ spiderman.alias }})
+                                                </label>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    <p class="text-muted mb-0">No hay Spider-Mans disponibles.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-text">Selecciona los Spider-Mans que aparecen en esta película.</div>
+                        </div>
+
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <a href="/peliculas/{{ pelicula.id }}" class="btn btn-secondary me-md-2">Cancelar</a>
                             <button type="submit" class="btn btn-primary px-4">Actualizar Película</button>
