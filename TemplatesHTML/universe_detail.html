@@ -6,10 +6,8 @@
 
 {% include 'universe.html' %}
 
-{% if universe.spiderMans %}
-<a href="/Universes/{{ universe.id }}/spiderMans">look SpiderMans({{ universe.spiderMans|length }})</a>
-{% else %}
+
 <a href="/SpiderMans/newSpider?universe_id={{ universe.id }}">Agregar Spiderman</a>
-{% endif %}
+
 
 {% include 'footer.html' %}

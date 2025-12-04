@@ -1,10 +1,11 @@
 {% include 'header.html' %}
 
-<a href="/universes/newUniverse">Crear Universo</a>
+<a href="/universes/newUniverse" class="btn btn-primary">Crear Universo</a>
+<a href="/restore/universes" class="btn btn-warning">Activar Universos</a>
 <h1>Universos del SpiderVerse</h1>
 
 {% for universe in universes %}
-    {% include 'universe_card.html' %}
+{% include 'universe_card.html' %}
 {% endfor %}
 
 {% include 'footer.html' %}

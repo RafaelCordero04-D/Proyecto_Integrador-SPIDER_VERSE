@@ -1,29 +1,90 @@
 {% include "header.html" %}
 
-<h3>Detalles del SpiderMan</h3>
+<main class="container mt-5 spiderman-detail-page">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="page-title">Detalles del SpiderMan</h1>
+        <a href="/universes/{{ universe.id }}" class="btn btn-outline-secondary">Volver al Universo</a>
+    </div>
 
-<div class="spiderMan-details">
-    <h2>Nombre: {{ SpiderMan.name }}</h2>
-    <p><strong>Alias:</strong> {{ SpiderMan.alias }}</p>
+    <article class="spiderman-content card shadow-sm mb-5">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <div class="spiderman-image-wrapper h-100 bg-light d-flex align-items-center justify-content-center">
+                    {% if SpiderMan.img %}
+                    <img src="{{ SpiderMan.img }}" alt="Imagen de {{ SpiderMan.name }}"
+                        class="img-fluid rounded-start w-100 h-100 object-fit-cover" style="max-height: 500px;">
+                    {% else %}
+                    <div class="text-muted p-5 text-center">
+                        <i class="bi bi-person-bounding-box display-1"></i>
+                        <p class="mt-2">Sin imagen disponible</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body p-4">
+                    <header class="spiderman-header mb-4 border-bottom pb-3">
+                        <h2 class="spiderman-name display-5">{{ SpiderMan.name }}</h2>
+                        <h4 class="spiderman-alias text-muted fw-light">{{ SpiderMan.alias }}</h4>
+                        <div class="spiderman-status mt-2">
+                            {% if SpiderMan.alive %}
+                            <span class="badge bg-success"><i class="bi bi-heart-pulse-fill"></i> Vivo</span>
+                            {% else %}
+                            <span class="badge bg-dark"><i class="bi bi-heartbreak-fill"></i> Fallecido</span>
+                            {% endif %}
+                        </div>
+                    </header>
 
-    <p><strong>Habilidades:</strong> {{ SpiderMan.skills }}</p>
+                    <section class="spiderman-info mb-4">
+                        <h5 class="text-uppercase text-muted small">Habilidades</h5>
+                        <p class="lead">{{ SpiderMan.skills }}</p>
+                    </section>
 
-    <p><strong>Estado:</strong> {% if SpiderMan.alive %} Vivo {% else %} Fallecido {% endif %}</p>
+                    <section class="spiderman-actions d-flex gap-2 mt-auto">
+                        <a href="/SpiderMans/{{ SpiderMan.id }}/edit" class="btn btn-warning">
+                            <i class="bi bi-pencil"></i> Editar
+                        </a>
+                        <form action="/SpiderMans/{{ SpiderMan.id }}/delete" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-outline-danger"
+                                onclick="return confirm('¿Estás seguro de que quieres eliminar este SpiderMan?');">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </article>
 
-    <p><strong>Imagen:</strong></p>
-    {% if SpiderMan.img %}
-    <img src="{{ SpiderMan.img }}" alt="Imagen de {{ SpiderMan.name }}" style="max-width: 300px; height: auto;">
-    {% endif %}
+    <hr class="my-5">
 
-
-    <a href="/universes/{{ universe.id }}" class="btn btn-primary">Ver Spider-Mans</a>
-
-    <a href="/SpiderMans/{{ SpiderMan.id }}/edit" class="btn btn-warning">Editar</a>
-
-    <form action="/SpiderMans/{{ SpiderMan.id }}/delete" method="post" style="display:inline;">
-        <button type="submit" class="btn btn-danger"
-            onclick="return confirm('¿Estás seguro de que quieres eliminar este SpiderMan?');">Eliminar</button>
-    </form>
-</div>
+    <section class="related-movies-section mb-5">
+        <h3 class="section-title mb-4 border-start border-4 border-primary ps-3">Películas en las que aparece</h3>
+        {% if peliculas %}
+        <div class="row g-4 movies-grid">
+            {% for pelicula in peliculas %}
+            <div class="col-md-6 col-lg-4">
+                <article class="card h-100 movie-card hover-shadow transition-all">
+                    <div class="card-body">
+                        <h5 class="card-title movie-title">{{ pelicula.titulo }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted movie-year">{{ pelicula.año }}</h6>
+                        <p class="card-text movie-director small">
+                            <strong>Director:</strong> {{ pelicula.director }}
+                        </p>
+                        <a href="/peliculas/{{ pelicula.id }}" class="btn btn-sm btn-outline-primary stretched-link">Ver
+                            Película</a>
+                    </div>
+                </article>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-secondary d-flex align-items-center" role="alert">
+            <i class="bi bi-film me-2"></i>
+            <div>No aparece en ninguna película registrada.</div>
+        </div>
+        {% endif %}
+    </section>
+</main>
 
 {% include "footer.html" %}
