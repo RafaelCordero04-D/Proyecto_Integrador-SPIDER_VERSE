@@ -95,5 +95,125 @@ Bienvenido al **Spider-Verse API**, una aplicación web completa construida con 
 - `estilos/`: Archivos CSS y recursos estáticos.
 - `SupaBase/`: Lógica de conexión con Supabase Storage.
 
+## 📘 Documentación Técnica
+
+### 📊 Diagrama de Clases
+A continuación se presenta el diagrama de clases que representa las entidades principales del sistema y sus relaciones.
+
+```mermaid
+classDiagram
+    class Universe {
+        +int id
+        +str name
+        +str description
+        +str characters
+        +bool status
+        +list~SpiderMan~ spiderMans
+    }
+
+    class SpiderMan {
+        +int id
+        +str name
+        +str alias
+        +str skills
+        +bool alive
+        +bool status
+        +str img
+        +int universe_id
+        +list~Pelicula~ peliculas
+    }
+
+    class Pelicula {
+        +int id
+        +str titulo
+        +int año
+        +float taquilla
+        +str director
+        +str characters
+        +str img
+        +list~SpiderMan~ spiderMans
+    }
+
+    Universe "1" -- "*" SpiderMan : contains
+    SpiderMan "*" -- "*" Pelicula : appears_in
+```
+
+### 🔄 Diagrama de Actividades (Crear Spider-Man)
+Flujo de proceso para la creación de un nuevo Spider-Man en el sistema.
+
+```mermaid
+graph TD
+    A[Inicio] --> B{Usuario llena formulario}
+    B --> C[Enviar datos al servidor]
+    C --> D{¿Imagen proporcionada?}
+    D -- Sí --> E[Subir imagen a Supabase]
+    D -- No --> F[Usar imagen por defecto/null]
+    E --> G[Obtener URL de imagen]
+    F --> G
+    G --> H[Crear objeto SpiderMan]
+    H --> I[Guardar en Base de Datos]
+    I --> J{¿Éxito?}
+    J -- Sí --> K[Redirigir a Detalle de SpiderMan]
+    J -- No --> L[Mostrar Error]
+    K --> M[Fin]
+    L --> M
+```
+
+### 🗂️ Modelos de Datos
+
+#### Universe
+Representa un universo alternativo en el multiverso.
+- **name**: Nombre del universo (ej. Earth-616).
+- **description**: Breve descripción del universo.
+- **characters**: Personajes principales o notas.
+- **status**: Estado del registro (Activo/Eliminado).
+
+#### SpiderMan
+Representa a una variante de Spider-Man.
+- **name**: Nombre real (ej. Peter Parker).
+- **alias**: Nombre de superhéroe (ej. Spider-Man).
+- **skills**: Habilidades destacadas.
+- **alive**: Estado vital (Vivo/Fallecido).
+- **img**: URL de la imagen de perfil.
+- **universe_id**: ID del universo al que pertenece.
+
+#### Pelicula
+Representa una película del Spider-Verse.
+- **titulo**: Título de la película.
+- **año**: Año de lanzamiento.
+- **taquilla**: Recaudación en taquilla.
+- **director**: Director de la película.
+- **img**: URL del póster.
+
+### 🔌 Endpoints API
+
+#### Spider-Mans (`/SpiderMans`)
+| Método | Ruta | Descripción |
+| :--- | :--- | :--- |
+| `GET` | `/` | Lista todos los Spider-Mans activos. |
+| `GET` | `/{id}` | Obtiene detalles de un Spider-Man. |
+| `POST` | `/` | Crea un nuevo Spider-Man. |
+| `GET` | `/{id}/edit` | Formulario de edición. |
+| `POST` | `/{id}/update` | Actualiza un Spider-Man. |
+| `POST` | `/{id}/delete` | Realiza un soft-delete. |
+
+#### Universes (`/universes`)
+| Método | Ruta | Descripción |
+| :--- | :--- | :--- |
+| `GET` | `/` | Lista todos los universos. |
+| `GET` | `/{id}` | Obtiene detalles de un universo. |
+| `POST` | `/` | Crea un nuevo universo. |
+| `GET` | `/{id}/spiderMans` | Lista Spider-Mans de un universo. |
+| `POST` | `/{id}/delete` | Realiza un soft-delete. |
+
+#### Peliculas (`/peliculas`)
+| Método | Ruta | Descripción |
+| :--- | :--- | :--- |
+| `GET` | `/` | Lista todas las películas. |
+| `GET` | `/{id}` | Obtiene detalles de una película. |
+| `POST` | `/` | Crea una nueva película. |
+| `POST` | `/{id}/add-spiderman` | Vincula un Spider-Man a una película. |
+| `POST` | `/{id}/remove-spiderman/{sid}` | Desvincula un Spider-Man de una película. |
+
 ---
 Desarrollado con 🕸️ y ❤️ para el Spider-Verse.
