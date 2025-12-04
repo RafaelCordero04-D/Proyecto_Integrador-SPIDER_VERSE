@@ -60,13 +60,14 @@ class peliculaBase(SQLModel):
     taquilla: float | None = Field(description = "Pelicula taquilla")
     director: str | None = Field(description = "Pelicula director")
     characters: str | None = Field(description = "Pelicula characters")
+    img: Optional[str] = Field(default = None, description="Pelicula Image")
 
 class Pelicula(peliculaBase, table=True):
     id: int | None = Field (primary_key=True, default = None)
     spiderMans: list["SpiderMan"] = Relationship(back_populates="peliculas", link_model=SpiderManPeliculaLink)
 
 class peliculaCreate(peliculaBase):
-    pass
+    img: Optional[str] = None
 
 class peliculaUpdate(peliculaBase):
     pass
