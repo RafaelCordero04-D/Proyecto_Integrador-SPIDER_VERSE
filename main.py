@@ -27,9 +27,9 @@ app.mount("/estilos", StaticFiles(directory="estilos"), name="estilos")
 
 Templates = Jinja2Templates(directory="TemplatesHTML")
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request):
+    return Templates.TemplateResponse("index.html", {"request": request})
 
 @app.get("/hello/{name}")
 async def say_hello(name: str):
