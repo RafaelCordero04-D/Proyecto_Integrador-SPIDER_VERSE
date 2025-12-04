@@ -1,7 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPIDER-VERSE API</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/estilos/style.css">
+    <style>
+        .navbar-brand {
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #dc3545 !important;
+            /* Spider-Man Red */
+        }
+    </style>
 </head>
+
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <span class="fs-4 me-2">🕸️</span> SPIDER-VERSE
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="bi bi-house-door"></i> Inicio
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/universes/">Universos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/SpiderMans/">SpiderMans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/peliculas/">Películas</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn btn-outline-danger text-light ms-lg-3 px-3" href="#"
+                            role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-plus-lg"></i> Crear
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/universes/newUniverse">Nuevo Universo</a></li>
+                            <!-- Note: SpiderMan creation requires a universe ID, so we link to universes list or a generic selector page if implemented -->
+                            <li><a class="dropdown-item" href="/universes/">Nuevo SpiderMan (desde Universo)</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="/peliculas/newPelicula">Nueva Película</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
