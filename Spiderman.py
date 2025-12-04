@@ -71,9 +71,14 @@ async def get_one_SpiderMan(request: Request, spiderMan_id: int, session: Sessio
     spiderMan_db = await session.get(SpiderMan, spiderMan_id)
     if not spiderMan_db:
         raise HTTPException(status_code=404, detail= "SpiderMan not found")
-    # Load the Universe relationship
-    await session.refresh(spiderMan_db, ["Universe"])
-    return Templates.TemplateResponse("spiderMan.html", {"request": request, "SpiderMan": spiderMan_db, "universe": spiderMan_db.Universe})
+    # Load the Universe and Peliculas relationships
+    await session.refresh(spiderMan_db, ["Universe", "peliculas"])
+    return Templates.TemplateResponse("spiderMan.html", {
+        "request": request, 
+        "SpiderMan": spiderMan_db, 
+        "universe": spiderMan_db.Universe,
+        "peliculas": spiderMan_db.peliculas
+    })
 
 
 #FORMULARIO PARA EDITAR SPIDERMAN
