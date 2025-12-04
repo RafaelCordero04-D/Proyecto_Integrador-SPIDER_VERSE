@@ -39,7 +39,7 @@ async def get_one_universe(request: Request, universe_id: int, session: SessionD
     if not universe_db:
         raise HTTPException(status_code=404, detail="Universe not found")
     await session.refresh(universe_db, ["spiderMans"])
-    return Templates.TemplateResponse("universe_detail.html", {"request": request, "universe": universe_db})
+    return Templates.TemplateResponse("universe.html", {"request": request, "universe": universe_db})
 
 @router.get("/", response_class=HTMLResponse)
 async def get_all_universes(request: Request, session:SessionDep):
