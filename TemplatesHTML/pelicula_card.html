@@ -1,0 +1,53 @@
+<div class="col">
+    <div class="card h-100 hover-shadow transition-all">
+        {% if show_link|default(True) %}
+        <a href="/peliculas/{{ pelicula.id }}" class="text-decoration-none">
+            {% endif %}
+            <!-- Imagen de la película -->
+            <div class="card-img-wrapper" style="height: 300px; overflow: hidden; position: relative;">
+                {% if pelicula.img %}
+                <img src="{{ pelicula.img }}" alt="{{ pelicula.titulo }}" class="card-img-top w-100 h-100"
+                    style="object-fit: cover;">
+                {% else %}
+                <div class="w-100 h-100 d-flex align-items-center justify-content-center"
+                    style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);">
+                    <i class="bi bi-film text-white" style="font-size: 4rem; opacity: 0.3;"></i>
+                </div>
+                {% endif %}
+
+                <!-- Badge con número de SpiderMans -->
+                <div class="position-absolute top-0 end-0 m-2">
+                    <span class="badge bg-danger rounded-pill">
+                        <i class="bi bi-person-badge"></i> {{ pelicula.spiderMans|length }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Cuerpo de la carta -->
+            <div class="card-body">
+                <h5 class="card-title text-truncate" title="{{ pelicula.titulo }}">{{ pelicula.titulo }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    <i class="bi bi-calendar-event"></i> {{ pelicula.año }}
+                </h6>
+                <p class="card-text small mb-2">
+                    <i class="bi bi-person-video3"></i> <strong>Director:</strong> {{ pelicula.director }}
+                </p>
+                <p class="card-text text-success fw-bold mb-0">
+                    <i class="bi bi-currency-dollar"></i> {{ "{:,.0f}".format(pelicula.taquilla) }} M
+                </p>
+            </div>
+            {% if show_link|default(True) %}
+        </a>
+        {% endif %}
+
+        <!-- Footer con botones -->
+        <div class="card-footer bg-transparent border-top d-flex justify-content-between align-items-center">
+            <a href="/peliculas/{{ pelicula.id }}" class="btn btn-sm btn-outline-primary">
+                <i class="bi bi-eye"></i> Ver Detalles
+            </a>
+            <a href="/peliculas/{{ pelicula.id }}/edit" class="btn btn-sm btn-outline-warning">
+                <i class="bi bi-pencil"></i> Editar
+            </a>
+        </div>
+    </div>
+</div>
