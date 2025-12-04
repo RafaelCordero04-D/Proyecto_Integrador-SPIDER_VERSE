@@ -2,7 +2,8 @@
 
 Bienvenido al **Spider-Verse API**, una aplicación web completa construida con **FastAPI** para gestionar el multiverso de Spider-Man. Esta herramienta permite administrar Universos, Spider-Mans y Películas, con una interfaz moderna y atractiva.
 
-![Spider-Verse Logo](../estilos/logo-9ebfe9a6-257e-4f0d-9f55-05baf39d18ea.jpg)
+![logo-9ebfe9a6-257e-4f0d-9f55-05baf39d18ea](https://github.com/user-attachments/assets/586fd71b-e0ed-470a-9971-fb642da4455c)
+
 
 ## 🚀 Características Principales
 
