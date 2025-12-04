@@ -77,9 +77,12 @@ Bienvenido al **Spider-Verse API**, una aplicación web completa construida con 
     ```bash
     uvicorn main:app --reload
     ```
+    O tambien inicia tu servidor, en mi caso render.
+    https://dashboard.render.com/web/srv-d4ojnkqdbo4c73f556ag/deploys/dep-d4ojnl2dbo4c73f556i0
 
 6.  **Acceder a la aplicación:**
     Abre tu navegador y visita `http://127.0.0.1:8000`.
+    O tambien accede a la url: https://spiderverse-api-ray8.onrender.com
 
 ## 📂 Estructura del Proyecto
 
