@@ -1,0 +1,65 @@
+{% include "header.html" %}
+
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="h4 mb-0">Registrar Nueva Película</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" action="/peliculas/" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="titulo" name="titulo" required
+                                placeholder="Ej: Spider-Man: No Way Home">
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="director" class="form-label">Director</label>
+                                <input type="text" class="form-control" id="director" name="director" required
+                                    placeholder="Ej: Jon Watts">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="año" class="form-label">Año de Estreno</label>
+                                <input type="number" class="form-control" id="año" name="año" min="1900" max="2100"
+                                    required placeholder="Ej: 2021">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="taquilla" class="form-label">Taquilla (USD)</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="taquilla" name="taquilla" step="0.01"
+                                    min="0" required placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="img" class="form-label">Imagen de Portada</label>
+                            <input class="form-control" type="file" id="img" name="img" accept="image/*">
+                            <div class="form-text">Sube un póster o imagen representativa de la película.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="characters" class="form-label">Personajes Principales</label>
+                            <textarea class="form-control" id="characters" name="characters" rows="3" required
+                                placeholder="Ej: Peter Parker, MJ, Ned Leeds..."></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="/peliculas/" class="btn btn-secondary me-md-2">Cancelar</a>
+                            <button type="submit" class="btn btn-primary px-4">Registrar Película</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% include "footer.html" %}
